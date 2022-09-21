@@ -11,3 +11,11 @@ add_executable(protobuf::protoc ALIAS protoc)
 
 set_target_properties(protoc PROPERTIES
     VERSION ${protobuf_VERSION})
+
+# MB patch begin
+
+if ( COMMAND mb_statically_link_cpp )
+    mb_statically_link_cpp( protoc )
+endif()
+
+# MB patch end
