@@ -64,7 +64,7 @@ src/protoc
 src/unittest_proto_middleman
 
 # vim generated
-*.swp
+*.sw?
 
 # Generated test scaffolding
 src/no_warning_test.cc
