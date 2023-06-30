@@ -57,7 +57,7 @@ python/docs/_build/
 src/js_embed
 
 # vim generated
-*.swp
+*.sw?
 *~
 
 # Generated test scaffolding

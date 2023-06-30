@@ -7,7 +7,19 @@ include("${CMAKE_CURRENT_LIST_DIR}/protobuf-options.cmake")
 @_protobuf_FIND_UTF8_RANGE@
 
 # Imported targets
-include("${CMAKE_CURRENT_LIST_DIR}/protobuf-targets.cmake")
+# MB patch (based on conan-center patch)
+# don't use the generated protobuf-targets.cmake as it only refers to the
+# targets in the same context.
+# Instead, use find_program to find the protoc in the build context, which is required
+# when cross-compiling.
+if(NOT TARGET protobuf::protoc)
+    find_program(PROTOC_PROGRAM protoc PATHS ENV PATH NO_DEFAULT_PATH)
+    get_filename_component(PROTOC_PROGRAM "${PROTOC_PROGRAM}" ABSOLUTE)
+    set(Protobuf_PROTOC_EXECUTABLE ${PROTOC_PROGRAM} CACHE FILEPATH "The protoc compiler")
+    add_executable(protobuf::protoc IMPORTED)
+    set_property(TARGET protobuf::protoc PROPERTY IMPORTED_LOCATION ${Protobuf_PROTOC_EXECUTABLE})
+endif()
+# end MB patch
 
 # protobuf-generate function
 include("${CMAKE_CURRENT_LIST_DIR}/protobuf-generate.cmake")

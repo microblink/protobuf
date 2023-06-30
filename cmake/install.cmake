@@ -49,6 +49,7 @@ if (protobuf_BUILD_PROTOC_BINARIES)
   install(TARGETS protoc EXPORT protobuf-targets
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT protoc
     BUNDLE DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT protoc)
+  if ( protobuf_BUILD_SHARED_LIBS ) # MB patch begin
   if (UNIX AND NOT APPLE)
     set_property(TARGET protoc
       PROPERTY INSTALL_RPATH "$ORIGIN/../${CMAKE_INSTALL_LIBDIR}")
@@ -56,6 +57,7 @@ if (protobuf_BUILD_PROTOC_BINARIES)
     set_property(TARGET protoc
       PROPERTY INSTALL_RPATH "@loader_path/../lib")
   endif()
+  endif() # MB patch end
 endif (protobuf_BUILD_PROTOC_BINARIES)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/protobuf.pc ${CMAKE_CURRENT_BINARY_DIR}/protobuf-lite.pc DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")

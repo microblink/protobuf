@@ -158,6 +158,10 @@ endif()
 # Version info variable
 set(Protobuf_VERSION "@protobuf_VERSION@")
 
+# MB patch begin
+# disable this backward-compatibility code as we don't use it and causes problems
+# with modern CMake
+if ( FALSE )
 include(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(Protobuf
     REQUIRED_VARS Protobuf_PROTOC_EXECUTABLE Protobuf_LIBRARIES Protobuf_INCLUDE_DIRS
@@ -187,3 +191,5 @@ foreach(Camel
     string(TOUPPER ${Camel} UPPER)
     set(${UPPER} ${${Camel}})
 endforeach()
+endif()
+# MB patch end
