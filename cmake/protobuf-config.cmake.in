@@ -11,7 +11,7 @@ include("${CMAKE_CURRENT_LIST_DIR}/protobuf-options.cmake")
 # Instead, use find_program to find the protoc in the build context, which is required
 # when cross-compiling.
 if(NOT TARGET protobuf::protoc)
-    find_program(PROTOC_PROGRAM protoc PATHS ENV PATH NO_DEFAULT_PATH)
+    mb_find_program( PROTOC_PROGRAM protoc )
     get_filename_component(PROTOC_PROGRAM "${PROTOC_PROGRAM}" ABSOLUTE)
     set(Protobuf_PROTOC_EXECUTABLE ${PROTOC_PROGRAM} CACHE FILEPATH "The protoc compiler")
     add_executable(protobuf::protoc IMPORTED)
