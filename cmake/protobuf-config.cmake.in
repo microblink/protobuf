@@ -8,17 +8,19 @@ include("${CMAKE_CURRENT_LIST_DIR}/protobuf-options.cmake")
 
 # Imported targets
 # MB patch (based on conan-center patch)
-# don't use the generated protobuf-targets.cmake as it only refers to the
-# targets in the same context.
-# Instead, use find_program to find the protoc in the build context, which is required
-# when cross-compiling.
-if(NOT TARGET protobuf::protoc)
-    mb_find_program( PROTOC_PROGRAM protoc )
-    get_filename_component(PROTOC_PROGRAM "${PROTOC_PROGRAM}" ABSOLUTE)
-    set(Protobuf_PROTOC_EXECUTABLE ${PROTOC_PROGRAM} CACHE FILEPATH "The protoc compiler")
-    add_executable(protobuf::protoc IMPORTED)
-    set_property(TARGET protobuf::protoc PROPERTY IMPORTED_LOCATION ${Protobuf_PROTOC_EXECUTABLE})
-endif()
+macro( mb_import_protoc )
+    # don't use the generated protobuf-targets.cmake as it only refers to the
+    # targets in the same context.
+    # Instead, use find_program to find the protoc in the build context, which is required
+    # when cross-compiling.
+    if(NOT TARGET protobuf::protoc)
+        mb_find_program( PROTOC_PROGRAM protoc protobuf )
+        get_filename_component(PROTOC_PROGRAM "${PROTOC_PROGRAM}" ABSOLUTE)
+        set(Protobuf_PROTOC_EXECUTABLE ${PROTOC_PROGRAM} CACHE FILEPATH "The protoc compiler")
+        add_executable(protobuf::protoc IMPORTED)
+        set_property(TARGET protobuf::protoc PROPERTY IMPORTED_LOCATION ${Protobuf_PROTOC_EXECUTABLE})
+    endif()
+endmacro()
 # end MB patch
 
 # protobuf-generate function
