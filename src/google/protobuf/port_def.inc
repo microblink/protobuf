@@ -641,6 +641,8 @@ static_assert(PROTOBUF_ABSL_MIN(20230125, 3),
 #endif
 #if defined(_MSC_VER)
 #define PROTOBUF_THREAD_LOCAL __declspec(thread)
+#elif defined( __EMSCRIPTEN__ ) // MB patch
+#define PROTOBUF_THREAD_LOCAL
 #else
 #define PROTOBUF_THREAD_LOCAL __thread
 #endif
